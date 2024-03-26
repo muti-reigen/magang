@@ -11,6 +11,7 @@ class FaceRecognition:
     face_names = []
     known_face_encodings = []
     known_face_names = []
+    the_name = ""
     process_current_frame = True
 
     def __init__(self):
@@ -59,7 +60,7 @@ class FaceRecognition:
                         face_distance = face_distances[best_match_index]
                         if face_distance < 0.9:
                             confi = self.face_confidence(face_distance)
-                            if confi > 95:
+                            if confi > 90:
                                 name = self.known_face_names[best_match_index]
                                 confidence = self.face_confidence(face_distances[best_match_index])
                                 # Draw a red frame around the face
@@ -69,9 +70,10 @@ class FaceRecognition:
                                 cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255), 1)
 
                     self.face_names.append(f'{name} ({confidence})')
-
+                    self.the_name = name
             self.process_current_frame = not self.process_current_frame
             yield frame  # Return the processed frame
+            self.the_name = ""
 
     def face_confidence(self, face_distance, face_match_threshold=0.8):
         range_val = (1.2 - face_match_threshold)

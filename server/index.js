@@ -5,7 +5,7 @@ const sql = require('mssql');
 const bodyParser = require('body-parser'); 
 const {shifts, getStatus}= require('./shifts');
 const theshift = shifts['shift1'];
-const {PythonShell} = require('python-shell');
+// const {PythonShell} = require('python-shell');
 
 // Configuration for your SQL Server connection
 const config = {
@@ -52,14 +52,9 @@ app.listen(8080, () => {
   console.log("server listening on port 8080");
 });
 
-app.use(cors({
-      origin: 'http://localhost:3000'
-}));
-
-app.get('/', (req, res) => {
-      res.send('Hello from our server!')
-});
-
+// app.use(cors({
+//       origin: 'http://localhost:3000'
+// }));
 app.use(cors());
 app.use(bodyParser.json());
 app.post('/checkStatus', (req, res) => {

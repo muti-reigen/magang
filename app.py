@@ -4,9 +4,10 @@ import cv2
 from recognition_offline import FaceRecognition
 
 app = Flask(__name__)
-CORS(app, resources={r"/video_feed": {"origins": "http://localhost:3000"}})
+CORS(app)
 
 fr = FaceRecognition()
+
 
 def generate_frames():
     for frame in fr.run_recognition():  # Iterate over processed frames
@@ -17,7 +18,11 @@ def generate_frames():
 @app.route('/video_feed', methods=['GET'])
 def video_feed():
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
-
+    
+@app.route('/', methods=['GET'])
+def sendstuff():
+    printed_name = fr.the_name
+    return str(printed_name)
 if __name__ == '__main__':
     host = "localhost"
     port = 4444
